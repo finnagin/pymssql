@@ -143,6 +143,8 @@ jobs:
       matrix:
         os: [windows-latest]
         arch: [AMD64, x86]
+        include:
+          - {os: windows-11-arm, arch: ARM64}
 
     steps:
 
@@ -157,6 +159,10 @@ jobs:
       - name: Install OpenSSL AMD64
         if: matrix.arch == 'AMD64'
         run: choco install openssl --version=3.1.1
+
+      - name: Install OpenSSL ARM64
+        if: matrix.arch == 'AMD64'
+        run: choco install openssl --version=3.5.2
 
       - name: Install gperf
         run: choco install gperf
