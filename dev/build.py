@@ -12,6 +12,7 @@ import shutil
 from subprocess import check_call, check_output, STDOUT
 import sys
 import tarfile
+import setuptools
 
 
 def run(cmd, cwd=None, env=None, shell=True):
@@ -95,8 +96,8 @@ def build(args, freetds_archive):
 
 def find_vcvarsall_env():
 
-    from distutils import _msvccompiler as _msvcc
-    from distutils.util import get_platform
+    from setuptools._distutils import _msvccompiler as _msvcc
+    from setuptools._distutils.util import get_platform
 
     plat_name = get_platform()
     CIBW_ARCHS_WINDOWS = os.environ.get("CIBW_ARCHS_WINDOWS")
