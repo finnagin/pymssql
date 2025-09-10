@@ -12,7 +12,6 @@ import shutil
 from subprocess import check_call, check_output, STDOUT
 import sys
 import tarfile
-import setuptools
 
 
 def run(cmd, cwd=None, env=None, shell=True):
@@ -96,8 +95,8 @@ def build(args, freetds_archive):
 
 def find_vcvarsall_env():
 
-    from setuptools._distutils import _msvccompiler as _msvcc
-    from setuptools._distutils.util import get_platform
+    from distutils import _msvccompiler as _msvcc
+    from distutils.util import get_platform
 
     plat_name = get_platform()
     CIBW_ARCHS_WINDOWS = os.environ.get("CIBW_ARCHS_WINDOWS")
@@ -121,6 +120,11 @@ def find_vcvarsall_env():
     env = eval(env.decode('ascii').strip('environ'))
     return env
 
+def find_env():
+    cmd = f'"{sys.executable}" -c "import os;print(repr(os.environ))"'
+    env = check_output(cmd, shell=True)
+    env = eval(env.decode('ascii').strip('environ'))
+    return env
 
 def build_windows(args, freetds_archive, iconv_archive):
 
@@ -137,7 +141,7 @@ def build_windows(args, freetds_archive, iconv_archive):
             if fn:
                 (wiconv / fn).write_bytes(zipf.read(m))
 
-    env = find_vcvarsall_env()
+    env = find_env()
 
     cmd = f'"{args.cmake}" -G "NMake Makefiles" ' \
             '-DCMAKE_BUILD_TYPE=Release -DBUILD_STATIC=on -DBUILD_SHARED=off ' \
