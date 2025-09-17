@@ -167,6 +167,9 @@ jobs:
       - name: Install gperf
         run: choco install gperf
 
+      - name: print files
+        run: dir "C:\Program Files\"
+      
       - name: Build wheels
         uses: pypa/cibuildwheel@v3.0.1
         env:
