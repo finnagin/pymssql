@@ -161,7 +161,7 @@ jobs:
         run: choco install openssl --version=3.1.1
 
       - name: Install OpenSSL ARM64
-        if: matrix.arch == 'AMD64'
+        if: matrix.arch == 'ARM64'
         run: choco install openssl --version=3.5.2
 
       - name: Install gperf
