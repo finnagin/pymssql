@@ -141,7 +141,7 @@ def build_windows(args, freetds_archive, iconv_archive):
             if fn:
                 (wiconv / fn).write_bytes(zipf.read(m))
 
-    env = find_env()
+    env = find_vcvarsall_env()
 
     cmd = f'"{args.cmake}" -G "NMake Makefiles" ' \
             '-DCMAKE_BUILD_TYPE=Release -DBUILD_STATIC=on -DBUILD_SHARED=off ' \
