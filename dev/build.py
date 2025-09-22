@@ -102,6 +102,8 @@ def find_vcvarsall_env():
     CIBW_ARCHS_WINDOWS = os.environ.get("CIBW_ARCHS_WINDOWS")
     if CIBW_ARCHS_WINDOWS == 'x86':
         plat_name = 'win32'
+    elif CIBW_ARCHS_WINDOWS == 'arm64':
+        plat_name = 'win-arm64'
 
     try:
         plat_spec = _msvcc.PLAT_TO_VCVARS[plat_name]
