@@ -100,6 +100,7 @@ def find_vcvarsall_env():
 
     plat_name = get_platform()
     CIBW_ARCHS_WINDOWS = os.environ.get("CIBW_ARCHS_WINDOWS")
+    print(f"CIBW_ARCHS_WINDOWS: {CIBW_ARCHS_WINDOWS}")
     if CIBW_ARCHS_WINDOWS == 'x86':
         plat_name = 'win32'
     elif CIBW_ARCHS_WINDOWS == 'arm64':
@@ -107,6 +108,7 @@ def find_vcvarsall_env():
 
     try:
         plat_spec = _msvcc.PLAT_TO_VCVARS[plat_name]
+        print(f"TRY plat_spec: {plat_spec}")
     except AttributeError:
         # setuptools removed PLAT_TO_VCVARS in 74.0
         PLAT_TO_VCVARS = {
@@ -116,7 +118,9 @@ def find_vcvarsall_env():
             'win-arm64' : 'arm64'
         }
         plat_spec = PLAT_TO_VCVARS[plat_name]
+        print(f"EXCEPT plat_spec: {plat_spec}")
     vcvarsall, _ = _msvcc._find_vcvarsall(plat_spec)
+    print(f"VCVARSALL: {vcvarsall}, plat_spec: {plat_spec}")
     cmd = f'(call "{vcvarsall}" {plat_spec}>nul)&&"{sys.executable}" -c "import os;print(repr(os.environ))"'
     env = check_output(cmd, shell=True)
     env = eval(env.decode('ascii').strip('environ'))
